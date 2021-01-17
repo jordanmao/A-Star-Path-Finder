@@ -23,20 +23,20 @@ class Cell(object):
         x = self.xpos
         y = self.ypos
         if cellSize > 60: #If the cells are big enough, show f, g, and h values
-            font = pygame.font.Font(pygame.font.get_default_font(), cellSize/6)
+            font = pygame.font.Font(pygame.font.get_default_font(), int(cellSize/6))
             label = str(self.g) + " " + str(self.h) + " " + str(self.f)
         else:
-            font = pygame.font.Font(pygame.font.get_default_font(), cellSize/2)
+            font = pygame.font.Font(pygame.font.get_default_font(), int(cellSize/2))
             label = str(self.f)
         #Cell Types-----------------------------------------------------------------------------------------------------
         if self.cellType == "start":
             pygame.draw.rect(screen, blue, (x, y, cellSize, cellSize))
-            font2 = pygame.font.Font(pygame.font.get_default_font(), cellSize/2)
+            font2 = pygame.font.Font(pygame.font.get_default_font(), int(cellSize/2))
             text = font2.render("S", True, black, blue)
             self.DisplayText(text)
         elif self.cellType == "end":
             pygame.draw.rect(screen, blue, (x, y, cellSize, cellSize))
-            font2 = pygame.font.Font(pygame.font.get_default_font(), cellSize/2)
+            font2 = pygame.font.Font(pygame.font.get_default_font(), int(cellSize/2))
             text = font2.render("F", True, black, blue)
             self.DisplayText(text)
         elif self.cellType == "test": #Cells to test around the parent cell
@@ -100,7 +100,6 @@ def GridSetUp(size, numberOfWalls, gridType):
     # |     |
     #size = 20
     elif gridType == "1":
-        print "hi"
         for y in range(5,16):
             walls.append((3,y))  #left branch of walls
             walls.append((17,y)) #right branch of walls
@@ -154,7 +153,7 @@ def FindPath(parentCell): #Takes a cell by its coordinate
         if (cell not in closerCells) and (grid[cell].f < lowestF[1]):
             lowestF = [cell, grid[cell].f]
     if lowestF == [parentCell, 100000000]: #If trapped and no path to the end, return to other cells
-        print "No Solution"
+        print("No Solution")
         return
     optimalCell = lowestF[0]
     closerCells.append(optimalCell)
@@ -191,14 +190,14 @@ def ShowShortestPath():
     for cell in shortestPath:
         grid[cell].cellType = "shortest path"
     grid[start].cellType = "start"
-    print "Shortest Path:",len(shortestPath),"Steps"
+    print("Shortest Path:",len(shortestPath),"Steps")
 
 
 #Main===================================================================================================================
 pygame.init()
 pygame.display.set_caption("A* Algorithm Path Finding")
-width = 1200
-height = 1200
+width = 800
+height = 800
 screen = pygame.display.set_mode([width, height])
 clock = pygame.time.Clock()
 gridType = "random big"
